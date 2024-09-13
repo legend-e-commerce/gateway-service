@@ -11,6 +11,7 @@ eureka:
 spring:
   application:
     name: gateway-service
+
   cloud:
     gateway:
       default-filters:
@@ -24,6 +25,16 @@ spring:
 #          uri: lb://USER-SERVICE
 #          predicates:
 #            - Path=/user-service/**
+
+        # USER-SERVICE
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/actuator/**
+            - Method=GET,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
 
         - id: user-service
           uri: lb://USER-SERVICE
@@ -53,14 +64,17 @@ spring:
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
 
+        # CATALOG-SERVICE
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
             - Path=/catalog-service/**
+        # ORDER-SERVICE
         - id: order-service
           uri: lb://ORDER-SERVICE
           predicates:
             - Path=/order-service/**
+
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
           predicates:
@@ -84,5 +98,19 @@ spring:
                  preLogger: true
                  postLogger: true
 
-token:
-  secret: aksdjwoieflskdjfilsjdkflweikdfsdfjsldkjfwlkdjfskdjlfk
+    config:
+      name: ecommerce
+  config:
+    import: optional:configserver:http://localhost:8888
+
+management:
+  server:
+    port: 8080
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health, refresh, beans, httpexchanges
+
+#token:
+#  secret: aksdjwoieflskdjfilsjdkflweikdfsdfjsldkjfwlkdjfskdjlfk

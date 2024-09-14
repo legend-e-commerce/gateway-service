@@ -10,6 +10,12 @@ eureka:
 
 spring:
 
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
   profiles:
     active: dev
 
@@ -114,7 +120,7 @@ management:
     web:
       base-path: /actuator
       exposure:
-        include: health, refresh, beans, httpexchanges
+        include: health, refresh, beans, httpexchanges, busrefresh
 
 #token:
 #  secret: aksdjwoieflskdjfilsjdkflweikdfsdfjsldkjfwlkdjfskdjlfk

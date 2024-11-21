@@ -120,7 +120,7 @@ management:
     web:
       base-path: /actuator
       exposure:
-        include: health, refresh, beans, httpexchanges, busrefresh
+        include: health, refresh, beans, httpexchanges, busrefresh, info, metrics, prometheus
 
 #token:
 #  secret: aksdjwoieflskdjfilsjdkflweikdfsdfjsldkjfwlkdjfskdjlfk
